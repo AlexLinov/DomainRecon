@@ -2,7 +2,10 @@ param (
     [string]$OutFile
 )
 
-$results = @()
+if ($OutFile) {
+    "Domain,Name,Hostname,IPAddress" | Out-File -FilePath $OutFile -Encoding UTF8
+}
+
 $trustedDomains = Get-ADTrust -Filter * | Select-Object -ExpandProperty Name
 
 foreach ($domain in $trustedDomains) {
@@ -21,22 +24,21 @@ foreach ($domain in $trustedDomains) {
                 $ip = "Unresolved"
             }
 
-            $results += [PSCustomObject]@{
+            $result = [PSCustomObject]@{
                 Domain    = $domain
                 Name      = $computer.Name
                 Hostname  = $hostname
                 IPAddress = $ip
+            }
+
+            if ($OutFile) {
+                $result | ConvertTo-Csv -NoTypeInformation | Select-Object -Skip 1 | Out-File -FilePath $OutFile -Append -Encoding UTF8
+            } else {
+                $result
             }
         }
 
     } catch {
         Write-Warning "Could not query $domain. $_"
     }
-}
-
-if ($OutFile) {
-    $results | Export-Csv -Path $OutFile -NoTypeInformation
-    Write-Host "`nResults written to $OutFile"
-} else {
-    $results | Format-Table -AutoSize
 }
