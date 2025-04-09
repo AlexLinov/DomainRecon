@@ -29,7 +29,7 @@ Great for pentesters, red teamers, or defenders mapping their AD estate.
 - Requires the ActiveDirectory PowerShell module (`RSAT-AD-PowerShell`)
 - Assumes you have access to query the trusted domains (usually works with two-way trust)
 - Will try to resolve `DNSHostName` for each computer using `Resolve-DnsName`
-
+```
 ## 💬 Sample Output
 
 ```
