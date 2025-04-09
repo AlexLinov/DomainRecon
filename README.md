@@ -1,4 +1,4 @@
-# TrustedDomainRecon
+# Poors-Man-Recon
 
 This is a simple PowerShell script that queries all trusted domains in the current Active Directory forest, retrieves all computer objects from each, and attempts to resolve their IP addresses using DNS. Outputs results to the terminal or a CSV file.
 
